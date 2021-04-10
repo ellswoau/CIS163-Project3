@@ -76,7 +76,8 @@ public class MySingleWithOutTailLinkedList implements Serializable
 
         // Rental is a console
         else if (rental instanceof Console) {
-            while (temp.getNext().getData() instanceof Game || !temp.getData().dueBack.after(rental.dueBack)) {
+            //TODO rethink logic of when to stop after instance of game
+            while (temp.getData() instanceof Game || !temp.getData().dueBack.after(rental.dueBack)) {
                 temp = temp.getNext();
             }
             //if next null
@@ -104,18 +105,19 @@ public class MySingleWithOutTailLinkedList implements Serializable
     public Rental remove(int index) {
     	//  More code goes here.
         Node currentNode = top;
+        //start by working one position behind the input param index
+        int currentInt = 0;
         //if top is already null
         if (currentNode == null) {
             return null;
         }
 
-        //start by working one position behind the input param index
-        int currentInt = -1;
         //make sure index is within range
         if (index<0 || index >=size()) {
             throw new IndexOutOfBoundsException();
         }
-        //index is 0
+
+        //case 1 - index is top
         if (index == 0) {
             top = currentNode.getNext();
         }
@@ -125,7 +127,7 @@ public class MySingleWithOutTailLinkedList implements Serializable
             return null;
         }
         else {
-            while (currentInt != (index - 1)) {
+            while (currentInt < (index - 1)) {
                 currentNode = currentNode.getNext();
                 currentInt++;
             }

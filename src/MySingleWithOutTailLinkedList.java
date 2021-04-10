@@ -104,17 +104,36 @@ public class MySingleWithOutTailLinkedList implements Serializable
     public Rental remove(int index) {
     	//  More code goes here.
         Node currentNode = top;
+        //if top is already null
+        if (currentNode == null) {
+            return null;
+        }
+
+        //start by working one position behind the input param index
         int currentInt = -1;
+        //make sure index is within range
+        if (index<0 || index >=size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        //index is 0
+        if (index == 0) {
+            top = currentNode.getNext();
+        }
+
         if (currentNode.getNext() == null) {
             top = null;
+            return null;
         }
         else {
             while (currentInt != (index - 1)) {
                 currentNode = currentNode.getNext();
-                index++;
+                currentInt++;
             }
+            //if node two positions lower (one position lower than
+            // actual index) is null, get rid of index
+            // position and set next to null
             if (currentNode.getNext().getNext() == null) {
-                currentNode.getNext().setNext(null);
+                currentNode.setNext(null);
             } else {
                 Node skipToNode = currentNode.getNext().getNext();
                 currentNode.setNext(skipToNode);
@@ -126,6 +145,11 @@ public class MySingleWithOutTailLinkedList implements Serializable
 
     public Rental get(int index) {
 
+        //make sure index is within range
+        if (index<0 || index >=size()) {
+            throw new IndexOutOfBoundsException();
+        }
+
         if (top == null)
             return null;
         
@@ -133,7 +157,6 @@ public class MySingleWithOutTailLinkedList implements Serializable
         else {
             //start count integer
             //current node, increment until equal to index
-            // TODO: make sure index is within size bounds
             int countNode = 0;
             Node currentNode = top;
             while (countNode != index) {

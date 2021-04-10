@@ -14,12 +14,12 @@ public class ListModel extends AbstractTableModel {
     /**
      * holds all the rentals
      */
-    private ArrayList<Rental> listOfRentals;
+    private MySingleWithOutTailLinkedList listOfRentals;
 
     /**
      * holds only the rentals that are to be displayed
      */
-    private ArrayList<Rental> fileredListRentals;
+    private MySingleWithOutTailLinkedList fileredListRentals;
 
     /**
      * current screen being displayed
@@ -36,8 +36,8 @@ public class ListModel extends AbstractTableModel {
 
     public ListModel() {
         display = ScreenDisplay.CurrentRentals;
-        listOfRentals = new ArrayList<Rental>();
-        fileredListRentals = new ArrayList<Rental>();
+        listOfRentals = new MySingleWithOutTailLinkedList();
+        fileredListRentals = new MySingleWithOutTailLinkedList();
         UpdateScreen();
         createList();
     }
@@ -208,7 +208,7 @@ public class ListModel extends AbstractTableModel {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream is = new ObjectInputStream(fis);
 
-            listOfRentals = (ArrayList<Rental>) is.readObject();
+            listOfRentals = (MySingleWithOutTailLinkedList) is.readObject();
             UpdateScreen();
             is.close();
         } catch (Exception ex) {
@@ -269,6 +269,7 @@ public class ListModel extends AbstractTableModel {
 
             add(game1);
             add(game4);
+/*
             add(game5);
             add(game2);
             add(game3);
@@ -280,6 +281,7 @@ public class ListModel extends AbstractTableModel {
             add(console5);
             add(console3);
             add(console4);
+*/
 
             /*
                 These commented out code is to help with debugging for step 2 and Step 3

@@ -9,8 +9,16 @@ public class Node implements Serializable {
 			this.data = data;
 			this.next = next;
 		}
-		
-		public Node() {
+
+	@Override
+	public String toString() {
+		return "Node{" +
+				"data=" + data +
+				", next=" + next +
+				'}';
+	}
+
+	public Node() {
 		}
 
 		public Rental getData() {

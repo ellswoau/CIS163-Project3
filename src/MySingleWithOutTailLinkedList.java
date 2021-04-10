@@ -54,14 +54,74 @@ public class MySingleWithOutTailLinkedList implements Serializable
             top = new Node(rental, top);
         }
 
-        //  More code goes here.
+        // else if rental instance of game and is due after top
+        else if (rental instanceof Game && !top.getData().dueBack.after(rental.dueBack)) {
+            // while temp.getnext isn't null and not after rental
+            while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)) {
+                temp = temp.getNext();
+            }
+            // if next null
+            if (temp.getNext() == null) {
+                temp.setNext(new Node(rental, null));
+            }
+
+            //if next not null
+            else {
+                Node oldNext = temp.getNext();
+                temp.setNext(new Node(rental, oldNext));
+            }
+        }
+
+
+
+        // Rental is a console
+        else if (rental instanceof Console) {
+            while (temp.getNext().getData() instanceof Game || !temp.getData().dueBack.after(rental.dueBack)) {
+                temp = temp.getNext();
+            }
+            //if next null
+            // temp.setNext(new Node(rental, null)
+            if (temp.getNext() == null) {
+                temp.setNext(new Node(rental, null));
+            }
+            //if next not null
+            else {
+                Node oldNext = temp.getNext();
+                temp.setNext(new Node(rental, oldNext));
+            }
+        }
+            //while temp.getNext is instanceof Game
+            //temp = temp.getNext()
+
+
+
+
+            //else loop through remaining list until dueback after or
+        // next is null
 
     }
 
     public Rental remove(int index) {
     	//  More code goes here.
-
+        Node currentNode = top;
+        int currentInt = -1;
+        if (currentNode.getNext() == null) {
+            top = null;
+        }
+        else {
+            while (currentInt != (index - 1)) {
+                currentNode = currentNode.getNext();
+                index++;
+            }
+            if (currentNode.getNext().getNext() == null) {
+                currentNode.getNext().setNext(null);
+            } else {
+                Node skipToNode = currentNode.getNext().getNext();
+                currentNode.setNext(skipToNode);
+            }
+        }
         return null;
+
     }
 
     public Rental get(int index) {
@@ -70,10 +130,23 @@ public class MySingleWithOutTailLinkedList implements Serializable
             return null;
         
         //  More code goes here.
+        else {
+            //start count integer
+            //current node, increment until equal to index
+            // TODO: make sure index is within size bounds
+            int countNode = 0;
+            Node currentNode = top;
+            while (countNode != index) {
+                currentNode = currentNode.getNext();
+                countNode++;
+            }
+            return currentNode.getData();
+        }
+
 
         // This is a placeholder to return something so that the
         // code will compile; this should be changed
-        return top.getData();
+
     }
 
     public void display() {

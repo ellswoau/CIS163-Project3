@@ -80,18 +80,34 @@ public class MySingleWithOutTailLinkedList implements Serializable
             while (temp.getNext() != null && temp.getNext().getData() instanceof Game) {
                 temp = temp.getNext();
             }
-            //if next null
+            //if first rental after all games is null
             // temp.setNext(new Node(rental, null)
+
             if (temp.getNext() == null) {
                 temp.setNext(new Node(rental, null));
             }
-            //if next not null
+
+            else if ( temp.getNext() != null && temp.getNext().getData().getDueBack() == rental.getDueBack()) {
+                if (temp.getNext().getData().getNameOfRenter().compareTo(rental.getNameOfRenter()) > 0) {
+                    ///
+                    temp.setNext(new Node(rental, temp.getNext()));
+                }
+                else {
+                    temp = temp.getNext();
+                    temp.setNext(new Node(rental, temp.getNext()));
+                }
+            }
+
+            //otherwise, continue until next is null or next dueback
+            // is after rental
             else {
                 while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)) {
                     temp = temp.getNext();
                 }
-                Node oldNext = temp.getNext();
+                        Node oldNext = temp.getNext();
                 temp.setNext(new Node(rental, oldNext));
+                }
+
             }
         }
             //while temp.getNext is instanceof Game
@@ -103,7 +119,7 @@ public class MySingleWithOutTailLinkedList implements Serializable
             //else loop through remaining list until dueback after or
         // next is null
 
-    }
+
 
     public Rental remove(int index) {
     	//  More code goes here.

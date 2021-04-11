@@ -77,7 +77,7 @@ public class MySingleWithOutTailLinkedList implements Serializable
         // Rental is a console
         else if (rental instanceof Console) {
             //TODO rethink logic of when to stop after instance of game
-            while (temp.getData() instanceof Game || !temp.getData().dueBack.after(rental.dueBack)) {
+            while (temp.getNext() != null && temp.getNext().getData() instanceof Game) {
                 temp = temp.getNext();
             }
             //if next null
@@ -87,6 +87,9 @@ public class MySingleWithOutTailLinkedList implements Serializable
             }
             //if next not null
             else {
+                while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)) {
+                    temp = temp.getNext();
+                }
                 Node oldNext = temp.getNext();
                 temp.setNext(new Node(rental, oldNext));
             }

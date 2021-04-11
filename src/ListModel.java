@@ -278,9 +278,9 @@ public class ListModel extends AbstractTableModel {
             add(game3);
             add(game6);
             add(game7);
-
+*/
             add(console1);
-            add(console2);
+  /*          add(console2);
             add(console5);
             add(console3);
             add(console4);

@@ -1,8 +1,7 @@
 import java.io.Serializable;
 import java.util.Random;
 
-public class MySingleWithOutTailLinkedList implements Serializable
-{
+public class MySingleWithOutTailLinkedList implements Serializable {
     private Node top;
 
     public MySingleWithOutTailLinkedList() {
@@ -20,12 +19,12 @@ public class MySingleWithOutTailLinkedList implements Serializable
             total++;
             temp = temp.getNext();
         }
-        
+
         return total;
     }
 
     // This method has been provided and you are not permitted to modify
-    public void clear () {
+    public void clear() {
         Random rand = new Random();
         while (size() > 0) {
             int number = rand.nextInt(size());
@@ -49,32 +48,56 @@ public class MySingleWithOutTailLinkedList implements Serializable
             top = new Node(rental, null);
         }
 
-        // Rental is a Game, and Rental goes on top
-        else if (rental instanceof Game && top.getData().dueBack.after(rental.dueBack)) {
-            top = new Node(rental, top);
+        // Rental is a Game, and rental might have to go on top
+        // definitely done
+        else if (rental instanceof Game && (top.getData().dueBack.after(rental.dueBack)
+                || top.getData().dueBack.equals(rental.dueBack))) {
+            if (top.getData().getDueBack() != rental.getDueBack()) {
+                top = new Node(rental, top);
+            } else {
+                if (top.getData().getNameOfRenter().compareTo(rental.getNameOfRenter()) > 0) {
+                    ///
+                    top = new Node(rental, temp);
+                } else {
+                    temp.setNext(new Node(rental, top.getNext()));
+                }
+            }
         }
 
-        // else if rental instance of game and is due after top
+        // rental not going on top
         else if (rental instanceof Game && !top.getData().dueBack.after(rental.dueBack)) {
             // while temp.getnext isn't null and not after rental
-            while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)) {
+            while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)
+                    && !temp.getNext().getData().dueBack.equals(rental.dueBack) && !(temp.getNext().getData() instanceof Console)) {
                 temp = temp.getNext();
             }
             // if next null
             if (temp.getNext() == null) {
                 temp.setNext(new Node(rental, null));
             }
-
-            //if next not null
-            else {
+            //if getnext is console type, insert new rental before
+            else if (temp.getNext().getData() instanceof Console) {
+                temp.setNext(new Node(rental, temp.getNext()));
+            }
+            //if getnext due date equals rentals due date
+            else if (temp.getNext().getData().dueBack.equals(rental.dueBack)) {
+                if (temp.getNext().getData().getNameOfRenter().compareTo(rental.getNameOfRenter()) > 0) {
+                    ///
+                    temp.setNext(new Node(rental, temp.getNext()));
+                } else {
+                    temp = temp.getNext();
+                    temp.setNext(new Node(rental, temp.getNext()));
+                }
+                //else rental is due back before getnext
+            } else if (temp.getNext().getData().dueBack.after(rental.dueBack)) {
                 Node oldNext = temp.getNext();
                 temp.setNext(new Node(rental, oldNext));
             }
         }
 
 
-
         // Rental is a console
+        //section done and working
         else if (rental instanceof Console) {
             //TODO rethink logic of when to stop after instance of game
             while (temp.getNext() != null && temp.getNext().getData() instanceof Game) {
@@ -82,47 +105,37 @@ public class MySingleWithOutTailLinkedList implements Serializable
             }
             //if first rental after all games is null
             // temp.setNext(new Node(rental, null)
-
             if (temp.getNext() == null) {
                 temp.setNext(new Node(rental, null));
-            }
-
-            else if ( temp.getNext() != null && temp.getNext().getData().getDueBack() == rental.getDueBack()) {
-                if (temp.getNext().getData().getNameOfRenter().compareTo(rental.getNameOfRenter()) > 0) {
-                    ///
-                    temp.setNext(new Node(rental, temp.getNext()));
-                }
-                else {
-                    temp = temp.getNext();
-                    temp.setNext(new Node(rental, temp.getNext()));
-                }
             }
 
             //otherwise, continue until next is null or next dueback
             // is after rental
             else {
-                while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack)) {
+                while (temp.getNext() != null && !temp.getNext().getData().dueBack.after(rental.dueBack) && !temp.getNext().getData().dueBack.equals(rental.dueBack)) {
                     temp = temp.getNext();
                 }
-                        Node oldNext = temp.getNext();
-                temp.setNext(new Node(rental, oldNext));
+                if (temp.getNext() == null) {
+                    temp.setNext(new Node(rental, null));
+                } else if (temp.getNext().getData().dueBack.equals(rental.dueBack)) {
+                    if (temp.getNext().getData().getNameOfRenter().compareTo(rental.getNameOfRenter()) > 0) {
+                        ///
+                        temp.setNext(new Node(rental, temp.getNext()));
+                    } else {
+                        temp = temp.getNext();
+                        temp.setNext(new Node(rental, temp.getNext()));
+                    }
+                } else if (temp.getNext().getData().dueBack.after(rental.dueBack)) {
+                    Node oldNext = temp.getNext();
+                    temp.setNext(new Node(rental, oldNext));
                 }
-
             }
         }
-            //while temp.getNext is instanceof Game
-            //temp = temp.getNext()
-
-
-
-
-            //else loop through remaining list until dueback after or
-        // next is null
-
+    }
 
 
     public Rental remove(int index) {
-    	//  More code goes here.
+        //  More code goes here.
         Node currentNode = top;
         //start by working one position behind the input param index
         int currentInt = 0;
@@ -132,7 +145,7 @@ public class MySingleWithOutTailLinkedList implements Serializable
         }
 
         //make sure index is within range
-        if (index<0 || index >=size()) {
+        if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -144,8 +157,7 @@ public class MySingleWithOutTailLinkedList implements Serializable
         if (currentNode.getNext() == null) {
             top = null;
             return null;
-        }
-        else {
+        } else {
             while (currentInt < (index - 1)) {
                 currentNode = currentNode.getNext();
                 currentInt++;
@@ -167,14 +179,12 @@ public class MySingleWithOutTailLinkedList implements Serializable
     public Rental get(int index) {
 
         //make sure index is within range
-        if (index<0 || index >=size()) {
+        if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException();
         }
 
         if (top == null)
             return null;
-        
-        //  More code goes here.
         else {
             //start count integer
             //current node, increment until equal to index
@@ -186,11 +196,6 @@ public class MySingleWithOutTailLinkedList implements Serializable
             }
             return currentNode.getData();
         }
-
-
-        // This is a placeholder to return something so that the
-        // code will compile; this should be changed
-
     }
 
     public void display() {

@@ -252,11 +252,6 @@ public class ListModel extends AbstractTableModel {
             Console console3 = new Console("Person5", g4, g8, null, ConsoleTypes.SegaGenesisMini);
             Console console4 = new Console("Person6", g4, g7, null, ConsoleTypes.SegaGenesisMini);
             Console console5 = new Console("Person1", g5, g4, g3, ConsoleTypes.XBoxOneS);
-            Console console6 = new Console("ABB", g4, g7, null,
-                    ConsoleTypes.SegaGenesisMini);
-            Console console7 = new Console("AAA", g4, g7, null,
-                    ConsoleTypes.SegaGenesisMini);
-
 
             Game game1 = new Game("Person1", g3, g2, null, "title1",
                     new Console("Person1", g3, g2, null, ConsoleTypes.PlayStation4));
@@ -272,28 +267,24 @@ public class ListModel extends AbstractTableModel {
             Game game7 = new Game("Person5", g4, g8, null, "title1",
                     new Console("Person5", g4, g8, null, ConsoleTypes.NintendoSwitch));
 
-           /*add(game1);
+           /* add(game1);
             add(game4);
-            add(game2);
-            //this one is a returned game
-            //add(game5);
-
             add(game5);
             add(game2);
-            add(game3);*/
+            add(game3);
             add(game6);
             add(game7);
 
-            add(console6);
-            add(console7);
+            add(console1);
+            add(console2);
+            add(console5);
+            add(console3);
+            add(console4);*/
 
+            /*
+                These commented out code is to help with debugging for step 2 and Step 3
 
-
-
-              //  These commented out code is to help with debugging
-            //  for step 2 and Step 3
-                
-            /*    add(game1);
+                add(game1);
             add(game4);
             add(console1);
             listOfRentals.remove(0);
@@ -309,18 +300,17 @@ public class ListModel extends AbstractTableModel {
             listOfRentals.remove(listOfRentals.size()-1);
             add(game7);
             add(console2);
-            add(console6);*/
             for (int i = 0; i < listOfRentals.size(); i++)
                 System.out.println(listOfRentals.get(i).toString());
-                
-            
 
+
+             */
             // create a bunch of them.
             int count = 0;
             Random rand = new Random(13);
             String guest = null;
 
-            while (count < 0) {
+            while (count < 30) {
                 Date date = df.parse("7/" + (rand.nextInt(10) + 2) + "/2020");
                 GregorianCalendar g = new GregorianCalendar();
                 g.setTime(date);

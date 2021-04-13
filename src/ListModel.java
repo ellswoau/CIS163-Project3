@@ -14,7 +14,8 @@ public class ListModel extends AbstractTableModel {
     /**
      * holds all the rentals
      */
-    private MySingleWithOutTailLinkedList listOfRentals;
+    //TODO only set to protected for test method
+    protected MySingleWithOutTailLinkedList listOfRentals;
 
     /**
      * holds only the rentals that are to be displayed

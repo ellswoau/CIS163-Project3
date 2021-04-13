@@ -59,7 +59,7 @@ public class MySingleWithOutTailLinkedList implements Serializable {
         else if (rental instanceof Game && (top.getData().dueBack
                 .after(rental.dueBack) || top.getData().dueBack
                 .equals(rental.dueBack))) {
-            if (top.getData().getDueBack() != rental.getDueBack()) {
+            if (!top.getData().dueBack.equals(rental.dueBack)) {
                 top = new Node(rental, top);
             }
             else {
@@ -68,7 +68,15 @@ public class MySingleWithOutTailLinkedList implements Serializable {
                     top = new Node(rental, temp);
                 }
                 else {
-                    temp.setNext(new Node(rental, top.getNext()));
+
+                    //continue moving down the list until compareTo > 0
+                    while (temp.getNext() != null && temp.getNext().getData()
+                            .dueBack.equals(rental.dueBack) && temp.getNext()
+                            .getData().getNameOfRenter()
+                            .compareTo(rental.getNameOfRenter()) <= 0) {
+                        temp = temp.getNext();
+                    }
+                    temp.setNext(new Node(rental, temp.getNext()));
                 }
             }
         }

@@ -96,14 +96,13 @@ public class MySingleWithOutTailLinkedList implements Serializable {
 
             // if getnext due date equals rentals due date, sort by name
             else if (temp.getNext().getData().dueBack.equals(rental.dueBack)) {
-                if (temp.getNext().getData().getNameOfRenter()
-                        .compareTo(rental.getNameOfRenter()) > 0) {
-                    temp.setNext(new Node(rental, temp.getNext()));
-                }
-                else {
+                while (temp.getNext() != null && temp.getNext().getData()
+                        .dueBack.equals(rental.dueBack) && temp.getNext()
+                        .getData().getNameOfRenter()
+                        .compareTo(rental.getNameOfRenter()) <= 0) {
                     temp = temp.getNext();
-                    temp.setNext(new Node(rental, temp.getNext()));
                 }
+                temp.setNext(new Node(rental, temp.getNext()));
             }
 
             // if getnext is due after rental, set next to rental
@@ -137,15 +136,14 @@ public class MySingleWithOutTailLinkedList implements Serializable {
                 }
 
                 // if getnext has same due date as rental, sort by name
-                else if (temp.getNext().getData().dueBack
-                        .equals(rental.dueBack)) {
-                    if (temp.getNext().getData().getNameOfRenter()
-                            .compareTo(rental.getNameOfRenter()) > 0) {
-                        temp.setNext(new Node(rental, temp.getNext()));
-                    } else {
+                else if (temp.getNext().getData().dueBack.equals(rental.dueBack)) {
+                    while (temp.getNext() != null && temp.getNext()
+                            .getData().dueBack.equals(rental.dueBack) &&
+                            temp.getNext().getData().getNameOfRenter()
+                            .compareTo(rental.getNameOfRenter()) <= 0) {
                         temp = temp.getNext();
-                        temp.setNext(new Node(rental, temp.getNext()));
                     }
+                    temp.setNext(new Node(rental, temp.getNext()));
                 }
 
                 // if getnext is due after rental, set rental next
